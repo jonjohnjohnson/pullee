@@ -1,4 +1,4 @@
 pullee
 ======
 
-A javascript plugin that can provide a pulling interaction on a DOM node to an arbitrary function on a successful "pull".
+A javascript plugin that provides a pulling interaction across a DOM node with functionality to reach a threshold signifying a "pull", then executing an arbitrary function.
