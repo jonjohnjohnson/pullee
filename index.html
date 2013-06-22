@@ -15,15 +15,14 @@
 </head>
 
 <body data-pullee>
-
+  
   <script src="./pullee.js"></script>
   <script>
     var myPullee = document.querySelector('[data-pullee]');
     function execute () {
       alert('herp')
     }
-    var pullToSide = new Pullee();
-    pullToSide.init(myPullee, 'x', 40, 'px', execute);
+    var pullToSide = new Pullee(myPullee, 'x', 40, 'px', execute);
   </script>
 
 </body>
