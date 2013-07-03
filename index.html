@@ -5,24 +5,64 @@
 	<meta charset="utf-8" />
 	<title>Pullee.js demo</title>
 	<link rel="stylesheet" type="text/css" href="http://necolas.github.io/normalize.css/2.1.2/normalize.css" />
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
 	<style>
 	html,
 	body {
   	width: 100%;
   	height: 100%;
 	}
+	article {
+  	max-width: 400px;
+  	padding: 40px;
+  	margin: auto;
+	}
+	h2,
+	h3 {
+  	text-align: center;
+	}
+	h3 {
+  	padding-top: 2em;
+	}
 	</style>
 </head>
 
 <body data-pullee>
-  
+
+  <article>
+    <h2>Big Ideas</h2>
+    <time datetime="2013-03-Sun" pubdate="">March 3, 2013</time>
+    <em>At the beginning of 2010, I posted some "big ideas" to my website. They were removed in a later redesign, but every few weeks, I get an email asking if the original text can be found anywhere. My thoughts on these topics have progressed in the past few years, but for the most part, I still agree with what I wrote. Here is the list, for internet posterity.</em>
+    <h3>Why is Greater Than How</h3>
+    <p>A complex world has made us over-emphasize How-based thinking and education. Once the tools are understood, grasping why to do certain things becomes more valuable than how to do them. How is recipes, but learning a craft is more than following instructions.</p>
+    <p>How is important for new practitioners learning to avoid common mistakes. Why is for those who wish to push, are not risk-averse, and seek to improve. How is coulda, Why is shoulda. How is finishing tasks, Why is fulfilling objectives. How results in more, Why yields better.</p>
+    <h3>Not More, Better</h3>
+    <p>I am more interested in supporting individuals and companies that value quality and realize the difference between more and better. The taste of the food will always trump the serving size.</p>
+    <p>Better is attainable, superior products and experiences, not ivory towers. An appreciation for better sets you off on a mission to support fine craftsmanship by buying well-crafted, thoughtful goods and services.</p>
+    <h3>Surprise + Clarity = Delight</h3>
+    <p>Design can have a myriad of purposes: to inform, persuade, sell, or delight. To delight means to present something with a different point of view, while retaining clarity. It makes others see the world in new and different ways.</p>
+    <p>We are taught a set of skills important for our growth and survival: communication, arithmetic, wellness, and many others. But no one teaches us how to perceive the world. Perhaps this is a job for delight: to delight someone is to give a small lesson in how to see the world as something good.</p>
+    <h3>Sincere, Authentic, Honest</h3>
+    <p>Increasingly, our way is to fake it and assume that others are doing the same. We fein interest in work, speak sarcastically, buy things that are new reproductions of old things, and often presume someone is selling us something. Skepticism as a default state is a hell of a thing. We're a hungry culture starved for sincerity, authenticity, and honesty.</p>
+    <p>What does fixing it look like? It doesn't look cool. In fact, it probably involves being so passionately enthusiastic about something that it is the exact opposite of cool. By caring intensely, we can connect to one another in more meaningful ways.</p>
+    <h3>No Silver Bullets, No Secrets</h3>
+    <p>Long ago, some one figured out that people love shortcuts. They also figured out that if you have a secret, you can sell it. Then came the business of inventing secrets that could be used as shortcuts to help someone get to a desired point without much effort.</p>
+    <p>Most anything worth doing is difficult. And any one that tells you there's a cheap or easy way to get what you want is probably trying to sell you something. You can't download experience - you can only live it. So, stop waiting and go out and try something. You'll feel empowered.</p>
+    <h3>Quality + Sincerity = Enthusiasm</h3>
+    <p>Enthusiasm becomes the currency of an ecosystem where things are free (like a lot of the internet). Quality is important because it gives people a legitimate reason to become excited. Sincerity is what creates the line between real enthusiasm and empty hype.</p>
+    <p>Things are better if creative people produce work that incites excitement in both the creative and the audience. Don't be shocked if something fails because it lacks fervor and passion. Build those in, if you can. If you can't, consider starting over.</p>
+    <h3>Everything is Something or Other</h3>
+    <p>I don't know what the hell is going on. Neither do you, and neither does any one else. We're all lost and improvising, making things before we know what they do, and breaking stuff before we know what replaces it. We're all tinkering and speculating, listening to see if our shovels hit something hard while we're digging. I suppose that's what world-building is, though, so let's get used to it. We need to learn to tolerate ambiguity.</p>
+    <p>We are consistently between two things. Welcome to the borderlands.</p>
+  </article>
+
   <script src="./pullee.js"></script>
   <script>
     var myPullee = document.querySelector('[data-pullee]');
     function execute () {
       alert('herp')
     }
-    var pullToSide = new Pullee(myPullee, 'x', 40, 'px', execute);
+    var pullToSide = new Pullee(myPullee, 'x', 100, 'px', execute);
   </script>
 
 </body>

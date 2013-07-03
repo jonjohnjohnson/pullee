@@ -1,7 +1,6 @@
 function Pullee(node, axis, threshold, thresholdUnit, execute) {
-  var self = this;
-  var startPoint = 0;
-  var axisPoint;
+  var start = {};
+  var move = {};
   
   // create a variable called error which is set to false and turned true if an error occurs
   var error = false;
@@ -20,11 +19,7 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   }
   
   // check if the axis is set correctly as 'x' or 'y'
-  if (axis === 'x') {
-    axisPoint = 'pageX';
-  } else if (axis === 'y') {
-    axisPoint = 'pageY';
-  } else {
+  if (axis !== 'x' && axis !== 'y') {
     error = true;
     errorMessages.push('axis must be \'x\' or \'y\'');
   }
@@ -63,11 +58,41 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   node.addEventListener('touchend', onEnd);
 
   function onStart (e) {
+  
+    // create x and y points from intitial touch interaction
+    start.x = e.pageX;
+    start.y = e.pageY;
     
   };
   
   function onMove (e) {
-    e.preventDefault();
+  
+    // checks to see if only one touch interaction is happening
+    if (e.touches.length < 2) {
+    
+      // create x and y points to check touch direction from initial interaction
+      move.x = e.pageX;
+      move.y = e.pageY;
+      
+      // check if axis  is set to 'x' or 'y'
+      if (axis === 'x') {
+      
+        // since axis is 'x' check if touch interaction is more x than y
+        if (Math.abs(move.x - start.x) > Math.abs(move.y - start.y)) {
+          e.preventDefault();
+        }
+        
+      } else {
+      
+        // since axis is 'y' check if touch interaction is more y than x
+        if (Math.abs(move.y - start.y) > Math.abs(move.x - start.x)) {
+          e.preventDefault();
+        }
+        
+      }
+      
+    }
+    
   };
   
   function onEnd (e) {
