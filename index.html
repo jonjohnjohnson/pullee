@@ -2,21 +2,27 @@
 <html lang="en">
 
 <head>
-	<meta charset="utf-8">
+	<meta charset="utf-8" />
 	<title>Pullee.js demo</title>
+	<link rel="stylesheet" type="text/css" href="http://necolas.github.io/normalize.css/2.1.2/normalize.css" />
 	<style>
-	
+	html,
+	body {
+  	width: 100%;
+  	height: 100%;
+	}
 	</style>
 </head>
 
 <body data-pullee>
-
-
+  
   <script src="./pullee.js"></script>
   <script>
-    var myPullee = document.querySelector("[data-pullee]");
-    var pullToSide = new Pullee(myPullee);
-    pullToSide.init();
+    var myPullee = document.querySelector('[data-pullee]');
+    function execute () {
+      alert('herp')
+    }
+    var pullToSide = new Pullee(myPullee, 'x', 40, 'px', execute);
   </script>
 
 </body>
