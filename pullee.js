@@ -1,6 +1,10 @@
 function Pullee(node, axis, threshold, thresholdUnit, execute) {
   var start = {};
   var move = {};
+  move.isPulling = false;
+  move.isTouching = false;
+  
+  var output = document.getElementById("output");
   
   // create a variable called error which is set to false and turned true if an error occurs
   var error = false;
@@ -66,7 +70,7 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   };
   
   function onMove (e) {
-  
+    
     // checks to see if only one touch interaction is happening
     if (e.touches.length < 2) {
     
@@ -74,19 +78,31 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
       move.x = e.pageX;
       move.y = e.pageY;
       
-      // check if axis  is set to 'x' or 'y'
-      if (axis === 'x') {
+      // if touch has already been moving and is actually pulling keep going
+      if (move.isPulling && move.isTouching) {
       
-        // since axis is 'x' check if touch interaction is more x than y
-        if (Math.abs(move.x - start.x) > Math.abs(move.y - start.y)) {
-          e.preventDefault();
-        }
+        pull(e);
         
-      } else {
-      
-        // since axis is 'y' check if touch interaction is more y than x
-        if (Math.abs(move.y - start.y) > Math.abs(move.x - start.x)) {
-          e.preventDefault();
+      } else if (!move.isPulling && !move.isTouching) {
+        
+        // set to moving state after first touch movement which will only allow checking for pull on initial movement
+        move.isTouching = true;
+        
+        // check if axis  is set to 'x' or 'y'
+        if (axis === 'x') {
+        
+          // since axis is 'x' check if touch interaction is more x than y
+          if (Math.abs(move.x - start.x) > Math.abs(move.y - start.y)) {
+            pull(e);
+          }
+          
+        } else {
+        
+          // since axis is 'y' check if touch interaction is more y than x
+          if (Math.abs(move.y - start.y) > Math.abs(move.x - start.x)) {
+            pull(e);
+          }
+          
         }
         
       }
@@ -96,7 +112,27 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   };
   
   function onEnd (e) {
-    
+    output.innerHTML = '';
+    move.isPulling = false;
+    move.isTouching = false;
   };
+  
+  function pull (e) {
+    console.log('derp');
+    move.isPulling = true;
+    e.preventDefault();
+    if (axis === 'x') {
+      output.innerHTML = move.x - start.x;
+    } else {
+      output.innerHTML = move.y - start.y;
+    }
+  }
 
 };
+
+
+
+
+
+
+
