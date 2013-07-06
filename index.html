@@ -12,10 +12,16 @@
   	width: 100%;
   	height: 100%;
 	}
-	article {
+	.article-tall {
   	max-width: 400px;
   	padding: 40px;
   	margin: auto;
+	}
+	.article-wide {
+  	margin: 0 20px;
+  	-webkit-column-width: 300px;
+  	-webkit-column-gap: 80px;
+  	height: 100%;
 	}
 	h2,
 	h3 {
@@ -26,13 +32,18 @@
 	}
 	#output {
   	position: fixed;
+  	background: #f00;
+  	color: #fff;
+  	line-height: 40px;
+  	text-align: center;
+  	width: 100%;
 	}
 	</style>
 </head>
 
 <body data-pullee>
-  <div id="output"></div>
-  <article>
+  <div id="output">output</div>
+  <article class="article-tall">
     <h2>Big Ideas</h2>
     <time datetime="2013-03-Sun" pubdate="">March 3, 2013</time>
     <em>At the beginning of 2010, I posted some "big ideas" to my website. They were removed in a later redesign, but every few weeks, I get an email asking if the original text can be found anywhere. My thoughts on these topics have progressed in the past few years, but for the most part, I still agree with what I wrote. Here is the list, for internet posterity.</em>
