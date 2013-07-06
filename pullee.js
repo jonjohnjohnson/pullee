@@ -112,14 +112,22 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   };
   
   function onEnd (e) {
+  
+    // clear output contents after touch interaction is over
     output.innerHTML = '';
+    
+    // set the isPulling and isTouching to false for next touch interaction to handle logic to set them true again
     move.isPulling = false;
     move.isTouching = false;
+    
   };
   
   function pull (e) {
-    console.log('derp');
+  
+    // set isPulling to be true to keep pulling logic on next touchmovement point
     move.isPulling = true;
+    
+    //prevent browsers native behavior, primarily scrolling
     e.preventDefault();
     if (axis === 'x') {
       output.innerHTML = move.x - start.x;
