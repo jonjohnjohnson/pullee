@@ -32,6 +32,7 @@
 	}
 	#output {
   	position: fixed;
+  	bottom: 0;
   	background: #f00;
   	color: #fff;
   	line-height: 40px;
@@ -73,10 +74,14 @@
   <script src="./pullee.js"></script>
   <script>
     var myPullee = document.querySelector('[data-pullee]');
-    function execute () {
-      alert('herp')
+    function execute (direction) {
+      if (direction === 1) {
+        alert('foo')
+      } else if (direction === -1) {
+        alert('bar');
+      }
     }
-    var pullToSide = new Pullee(myPullee, 'x', 20, '%', execute);
+    var pullToSide = new Pullee(myPullee, 'x', 35, '%', execute);
   </script>
 
 </body>

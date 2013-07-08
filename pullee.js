@@ -4,6 +4,8 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   var thresholdInPercent;
   move.isPulling = false;
   move.isTouching = false;
+  move.hasPulled = false;
+  move.hasMoved;
   
   var output = document.getElementById('output');
   
@@ -59,15 +61,6 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
     thresholdInPercent = threshold;
   }
   
-  // register eventListener for initial touch interaction
-  node.addEventListener('touchstart', onStart);
-  
-  // register eventListener for touch movement interaction
-  node.addEventListener('touchmove', onMove);
-  
-  // register eventListener for end of touch interaction
-  node.addEventListener('touchend', onEnd);
-  
   // if threshold is in '%' translate it into 'px' to use against touch logic which is in 'px'
   function calculateThresholdInPx () {
     if (thresholdUnit === '%') {
@@ -77,14 +70,21 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
       } else {
         nodeDimension = parseInt(getComputedStyle(node).height, 10);
       }
-      
       threshold = nodeDimension * (thresholdInPercent/100);
     }
   }
   
   calculateThresholdInPx();
-  
   window.addEventListener('resize', calculateThresholdInPx);
+  
+  // register eventListener for initial touch interaction
+  node.addEventListener('touchstart', onStart);
+  
+  // register eventListener for touch movement interaction
+  node.addEventListener('touchmove', onMove);
+  
+  // register eventListener for end of touch interaction
+  node.addEventListener('touchend', onEnd);
 
   function onStart (e) {
   
@@ -137,18 +137,22 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   };
   
   function onEnd (e) {
-  
+    
+    if (move.hasPulled) {
+      execute(move.hasMoved);
+    }
+    
     // clear output contents after touch interaction is over
     output.innerHTML = '';
     
     // set the isPulling and isTouching to false for next touch interaction to handle logic to set them true again
     move.isPulling = false;
     move.isTouching = false;
+    move.hasPulled = false;
     
   };
   
   function pull (e) {
-    var hasMoved;
     
     // set isPulling to be true to keep pulling logic on next touchmovement point
     move.isPulling = true;
@@ -156,16 +160,17 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
     //prevent browsers native behavior, primarily scrolling
     e.preventDefault();
     if (axis === 'x') {
-      hasMoved = (move.x - start.x) / threshold;
+      move.hasMoved = (move.x - start.x) / threshold;
     } else {
-      hasMoved = (move.y - start.y) / threshold;
+      move.hasMoved = (move.y - start.y) / threshold;
     }
     
-    if (Math.abs(hasMoved) >= 1) {
-      hasMoved = 'reached';
+    if (Math.abs(move.hasMoved) >= 1) {
+      move.hasPulled = true;
+      move.hasMoved = Math.max(-1, Math.min(1, move.hasMoved));
     }
     
-    output.innerHTML = hasMoved + '%';
+    output.innerHTML = move.hasMoved + '%';
   }
 
 };
