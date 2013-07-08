@@ -79,7 +79,6 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
       }
       
       threshold = nodeDimension * (thresholdInPercent/100);
-      alert(threshold);
     }
   }
   
