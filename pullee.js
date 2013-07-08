@@ -1,10 +1,11 @@
 function Pullee(node, axis, threshold, thresholdUnit, execute) {
   var start = {};
   var move = {};
+  var thresholdInPercent;
   move.isPulling = false;
   move.isTouching = false;
   
-  var output = document.getElementById("output");
+  var output = document.getElementById('output');
   
   // create a variable called error which is set to false and turned true if an error occurs
   var error = false;
@@ -29,7 +30,7 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   }
   
   // check if threshold is set correctly as a number
-  if (typeof threshold !== "number") {
+  if (typeof threshold !== 'number') {
     error = true;
     errorMessages.push('threshold must be a number');
   }
@@ -52,6 +53,12 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
     throw new Error(errorMessage);
   }
   
+  // store originial threshold value if unit type is '%' before the threshold is overwritten in 'px' to use for touch logic
+  // original value is retained to re-execute logic to calculate 'px' dimension on resize of window which can alter '%' dimension in px
+  if (thresholdUnit === '%') {
+    thresholdInPercent = threshold;
+  }
+  
   // register eventListener for initial touch interaction
   node.addEventListener('touchstart', onStart);
   
@@ -60,6 +67,25 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   
   // register eventListener for end of touch interaction
   node.addEventListener('touchend', onEnd);
+  
+  // if threshold is in '%' translate it into 'px' to use against touch logic which is in 'px'
+  function calculateThresholdInPx () {
+    if (thresholdUnit === '%') {
+      var nodeDimension;
+      if (axis === 'x') {
+        nodeDimension = parseInt(getComputedStyle(node).width, 10);
+      } else {
+        nodeDimension = parseInt(getComputedStyle(node).height, 10);
+      }
+      
+      threshold = nodeDimension * (thresholdInPercent/100);
+      alert(threshold);
+    }
+  }
+  
+  calculateThresholdInPx();
+  
+  window.addEventListener('resize', calculateThresholdInPx);
 
   function onStart (e) {
   
@@ -123,17 +149,24 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   };
   
   function pull (e) {
-  
+    var hasMoved;
+    
     // set isPulling to be true to keep pulling logic on next touchmovement point
     move.isPulling = true;
     
     //prevent browsers native behavior, primarily scrolling
     e.preventDefault();
     if (axis === 'x') {
-      output.innerHTML = move.x - start.x;
+      hasMoved = (move.x - start.x) / threshold;
     } else {
-      output.innerHTML = move.y - start.y;
+      hasMoved = (move.y - start.y) / threshold;
     }
+    
+    if (Math.abs(hasMoved) >= 1) {
+      hasMoved = 'reached';
+    }
+    
+    output.innerHTML = hasMoved + '%';
   }
 
 };
