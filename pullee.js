@@ -181,7 +181,7 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   var handle = document.querySelector('.pullee-handle');
   
   function animate () {
-    handle.style.webkitTransform = 'translate3d(' + move.hasMoved*100 + '%,0,0)';
+    handle.style.webkitTransform = 'translate3d(' + move.hasMoved*30 + '%,0,0)';
     handle.style.webkitTransition = 'none';
   }
 
