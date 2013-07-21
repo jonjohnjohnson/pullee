@@ -1,7 +1,16 @@
 function Pullee(node, axis, threshold, thresholdUnit, execute) {
-  var self = this;
-  var startPoint = 0;
-  var axisPoint;
+  var start = {
+    x: 0,
+    y: 0
+  };
+  var move = {
+    x: 0,
+    y: 0,
+    isPulling: false,
+    isTouching: false,
+    hasPulled: false,
+    hasMoved: 0
+  };
   
   // create a variable called error which is set to false and turned true if an error occurs
   var error = false;
@@ -20,17 +29,13 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   }
   
   // check if the axis is set correctly as 'x' or 'y'
-  if (axis === 'x') {
-    axisPoint = 'pageX';
-  } else if (axis === 'y') {
-    axisPoint = 'pageY';
-  } else {
+  if (axis !== 'x' && axis !== 'y') {
     error = true;
     errorMessages.push('axis must be \'x\' or \'y\'');
   }
   
   // check if threshold is set correctly as a number
-  if (typeof threshold !== "number") {
+  if (typeof threshold !== 'number') {
     error = true;
     errorMessages.push('threshold must be a number');
   }
@@ -53,25 +58,138 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
     throw new Error(errorMessage);
   }
   
+  // store originial threshold value if unit type is '%' before the threshold is overwritten in 'px' to use for touch logic
+  // original value is retained to re-execute logic to calculate 'px' dimension on resize of window which can alter '%' dimension in px
+  if (thresholdUnit === '%') {
+    var thresholdInPercent = threshold;
+  }
+  
+  // if threshold is in '%' translate it into 'px' to use against touch logic which is in 'px'
+  function calculateThresholdInPx () {
+    if (thresholdUnit === '%') {
+      var nodeDimension;
+      if (axis === 'x') {
+        nodeDimension = parseInt(getComputedStyle(node).width, 10);
+      } else {
+        nodeDimension = parseInt(getComputedStyle(node).height, 10);
+      }
+      threshold = nodeDimension * (thresholdInPercent/100);
+    }
+  }
+  
+  calculateThresholdInPx();
+  window.addEventListener('resize', calculateThresholdInPx, false);
+  
   // register eventListener for initial touch interaction
-  node.addEventListener('touchstart', onStart);
+  node.addEventListener('touchstart', onStart, false);
   
   // register eventListener for touch movement interaction
-  node.addEventListener('touchmove', onMove);
+  node.addEventListener('touchmove', onMove, false);
   
   // register eventListener for end of touch interaction
-  node.addEventListener('touchend', onEnd);
+  node.addEventListener('touchend', onEnd, false);
 
   function onStart (e) {
+  
+    // create x and y points from intitial touch interaction
+    start.x = e.pageX;
+    start.y = e.pageY;
     
-  };
+  }
   
   function onMove (e) {
-    e.preventDefault();
-  };
+    
+    // checks to see if only one touch interaction is happening
+    if (e.touches.length < 2) {
+    
+      // create x and y points to check touch direction from initial interaction
+      move.x = e.pageX;
+      move.y = e.pageY;
+      
+      // if touch has already been moving and is actually pulling keep going
+      if (move.isPulling && move.isTouching) {
+      
+        pull(e);
+        
+      } else if (!move.isPulling && !move.isTouching) {
+        
+        // set to moving state after first touch movement which will only allow checking for pull on initial movement
+        move.isTouching = true;
+        
+        // check if axis  is set to 'x' or 'y'
+        if (axis === 'x') {
+        
+          // since axis is 'x' check if touch interaction is more x than y
+          if (Math.abs(move.x - start.x) > Math.abs(move.y - start.y)) {
+            pull(e);
+          }
+          
+        } else {
+        
+          // since axis is 'y' check if touch interaction is more y than x
+          if (Math.abs(move.y - start.y) > Math.abs(move.x - start.x)) {
+            pull(e);
+          }
+          
+        }
+        
+      }
+      
+    }
+    
+  }
   
   function onEnd (e) {
     
-  };
+    if (move.hasPulled) {
+      execute(move.hasMoved);
+    }
+    
+    // clear animate after touch interaction is over
+    handle.style.webkitTransform = '';
+    handle.style.webkitTransition = '';
+    
+    // set the isPulling and isTouching to false for next touch interaction to handle logic to set them true again
+    move.isPulling = false;
+    move.isTouching = false;
+    move.hasPulled = false;
+    
+  }
+  
+  function pull (e) {
+    
+    // set isPulling to be true to keep pulling logic on next touchmovement point
+    move.isPulling = true;
+    
+    //prevent browsers native behavior, primarily scrolling
+    e.preventDefault();
+    if (axis === 'x') {
+      move.hasMoved = (move.x - start.x) / threshold;
+    } else {
+      move.hasMoved = (move.y - start.y) / threshold;
+    }
+    
+    if (Math.abs(move.hasMoved) >= 1) {
+      move.hasPulled = true;
+      move.hasMoved = Math.max(-1, Math.min(1, move.hasMoved));
+    }
+    
+    animate ();
+    
+  }
+  
+  var handle = document.querySelector('.pullee-handle');
+  
+  function animate () {
+    handle.style.webkitTransform = 'translate3d(' + move.hasMoved*30 + '%,0,0)';
+    handle.style.webkitTransition = 'none';
+  }
 
 };
+
+
+
+
+
+
+
