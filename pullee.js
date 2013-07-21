@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-//Can you tell me if you see this? 
-function Pullee(node, direction, threshold, execute) {
-  self = this;
-
-  self.init = function() {
-    alert('derp');
-=======
 function Pullee(node, axis, threshold, thresholdUnit, execute) {
   var start = {
     x: 0,
@@ -20,19 +10,7 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
     isTouching: false,
     hasPulled: false,
     hasMoved: 0
->>>>>>> 15815d3b864a3d5b777346044283ce96de4a44d0
   };
-=======
-=======
->>>>>>> 8c52108cb75050e85038c7c65fa8e4d945c9894a
-function Pullee(node, axis, threshold, thresholdUnit, execute) {
-  var self = this;
-  var startPoint = 0;
-  var axisPoint;
-<<<<<<< HEAD
->>>>>>> 8c52108cb75050e85038c7c65fa8e4d945c9894a
-=======
->>>>>>> 8c52108cb75050e85038c7c65fa8e4d945c9894a
   
   // create a variable called error which is set to false and turned true if an error occurs
   var error = false;
@@ -51,25 +29,13 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   }
   
   // check if the axis is set correctly as 'x' or 'y'
-<<<<<<< HEAD
-  if (axis === 'x') {
-    axisPoint = 'pageX';
-  } else if (axis === 'y') {
-    axisPoint = 'pageY';
-  } else {
-=======
   if (axis !== 'x' && axis !== 'y') {
->>>>>>> 15815d3b864a3d5b777346044283ce96de4a44d0
     error = true;
     errorMessages.push('axis must be \'x\' or \'y\'');
   }
   
   // check if threshold is set correctly as a number
-<<<<<<< HEAD
-  if (typeof threshold !== "number") {
-=======
   if (typeof threshold !== 'number') {
->>>>>>> 15815d3b864a3d5b777346044283ce96de4a44d0
     error = true;
     errorMessages.push('threshold must be a number');
   }
@@ -79,10 +45,6 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
     error = true;
     errorMessages.push('thresholdUnit must be a \'px\' or \'%\'');
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 15815d3b864a3d5b777346044283ce96de4a44d0
   
   // check if execute is set correctly as a function
   if (typeof execute !== 'function') {
@@ -95,32 +57,6 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
     var errorMessage = errorMessages.length + ' errors: ' + errorMessages.join(', ');
     throw new Error(errorMessage);
   }
-<<<<<<< HEAD
-  
-=======
-  
-  // check if execute is set correctly as a function
-  if (typeof execute !== 'function') {
-    error = true;
-    errorMessages.push('you must pass in a function to execute');
-  }
-  
-  // check if error variable is set to true and throw the error(s) that happened
-  if (error) {
-    var errorMessage = errorMessages.length + ' errors: ' + errorMessages.join(', ');
-    throw new Error(errorMessage);
-  }
-  
->>>>>>> 8c52108cb75050e85038c7c65fa8e4d945c9894a
-  // register eventListener for initial touch interaction
-  node.addEventListener('touchstart', onStart);
-  
-  // register eventListener for touch movement interaction
-  node.addEventListener('touchmove', onMove);
-  
-  // register eventListener for end of touch interaction
-  node.addEventListener('touchend', onEnd);
-=======
   
   // store originial threshold value if unit type is '%' before the threshold is overwritten in 'px' to use for touch logic
   // original value is retained to re-execute logic to calculate 'px' dimension on resize of window which can alter '%' dimension in px
@@ -152,7 +88,6 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   
   // register eventListener for end of touch interaction
   node.addEventListener('touchend', onEnd, false);
->>>>>>> 15815d3b864a3d5b777346044283ce96de4a44d0
 
   function onStart (e) {
   
@@ -163,10 +98,6 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   }
   
   function onMove (e) {
-<<<<<<< HEAD
-    e.preventDefault();
-  };
-=======
     
     // checks to see if only one touch interaction is happening
     if (e.touches.length < 2) {
@@ -207,7 +138,6 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
     }
     
   }
->>>>>>> 15815d3b864a3d5b777346044283ce96de4a44d0
   
   function onEnd (e) {
     
@@ -256,3 +186,9 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   }
 
 };
+
+
+
+
+
+
