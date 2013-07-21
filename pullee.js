@@ -186,10 +186,3 @@ function Pullee(node, axis, threshold, thresholdUnit, execute) {
   }
 
 };
-
-
-
-
-
-
-
