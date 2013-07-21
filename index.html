@@ -5,6 +5,13 @@
 	<meta charset="utf-8" />
 	<title>Pullee.js demo</title>
 	<link rel="stylesheet" type="text/css" href="http://necolas.github.io/normalize.css/2.1.2/normalize.css" />
+<<<<<<< HEAD
+	<style>
+	html,
+	body {
+  	width: 100%;
+  	height: 100%;
+=======
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
 	<style>
 	html,
@@ -62,11 +69,22 @@
 	}
 	.pullee-next {
   	left: 100%;
+>>>>>>> 15815d3b864a3d5b777346044283ce96de4a44d0
 	}
 	</style>
 </head>
 
 <body data-pullee>
+<<<<<<< HEAD
+  
+  <script src="./pullee.js"></script>
+  <script>
+    var myPullee = document.querySelector('[data-pullee]');
+    function execute () {
+      alert('herp')
+    }
+    var pullToSide = new Pullee(myPullee, 'x', 40, 'px', execute);
+=======
   <div class="pullee-handle-container">
     <div class="pullee-handle">
       <div class="pullee-prev"></div>
@@ -111,6 +129,7 @@
       }
     }
     var pullToSide = new Pullee(myPullee, 'x', 30, '%', execute);
+>>>>>>> 15815d3b864a3d5b777346044283ce96de4a44d0
   </script>
 
 </body>
